@@ -15,21 +15,12 @@
 
 import os
 import shutil
-from collections import defaultdict
-from os.path import relpath
 
-root_dir = r'D:\PycharmProjects\PythonGeek\DZ_1\Python_Geek_DZ\DZ_7\my_project'
-my_files = defaultdict(list)
-for root, dirs, files in os.walk(root_dir):
-   for file in files:
-       ext = file.rsplit('.', maxsplit=1)[-1].lower()
-       rel_path = relpath(os.path.join(root, file), root_dir)
-       my_files[ext].append(rel_path)
-
-dir_path = os.path.join(root_dir, 'templates')
-if not os.path.exists(dir_path):
-    os.mkdir(dir_path)
-
-files_to_copy = my_files['html']
-for f in files_to_copy:
-    shutil.copy(os.path.join(root_dir, f), dir_path)
+root_dir = r'D:\PycharmProjects\PythonGeek\DZ_1\Python_Geek_DZ\DZ_7\My_project\templates'
+for root, dirs, files in os.walk('My_project'):
+    if root == root_dir:
+        break
+    for file in files:
+        if file.rsplit('.', 1)[-1].lower() == 'html':
+            os.makedirs(os.path.join(root_dir, root.split('\\')[-1]), exist_ok=True)
+            shutil.copyfile(os.path.join(root, file), os.path.join(root_dir, os.path.join(root.split('\\')[-1], file)))
